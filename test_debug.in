@@ -1,0 +1,3 @@
+su root sjtu
+su worker worker_password
+exit

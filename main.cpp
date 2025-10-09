@@ -94,17 +94,19 @@ bool isValidQuantity(const string& s) {
 bool isValidPrice(const string& s) {
     if (s.empty() || s.length() > 13) return false;
     bool hasDot = false;
-    int afterDot = 0;
+    int beforeDot = 0, afterDot = 0;
     for (char c : s) {
         if (c == '.') {
             if (hasDot) return false;
             hasDot = true;
         } else if (isdigit(c)) {
             if (hasDot) afterDot++;
+            else beforeDot++;
         } else {
             return false;
         }
     }
+    if (beforeDot == 0) return false;  // Must have at least one digit before dot
     return !hasDot || afterDot <= 2;
 }
 
@@ -677,7 +679,7 @@ private:
             if (arg.substr(0, 6) == "-ISBN=") {
                 type = "ISBN";
                 value = arg.substr(6);
-                if (!isValidISBN(value)) {
+                if (value.empty() || !isValidISBN(value)) {
                     cout << "Invalid\n";
                     return;
                 }
