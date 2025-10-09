@@ -763,7 +763,7 @@ private:
         }
 
         long long quantity = stoll(quantityStr);
-        if (quantity <= 0) {
+        if (quantity <= 0 || quantity > 2147483647) {
             cout << "Invalid\n";
             return;
         }
@@ -774,13 +774,13 @@ private:
             return;
         }
 
-        if (book->quantity < quantity) {
+        if (book->quantity < (int)quantity) {
             cout << "Invalid\n";
             return;
         }
 
         double total = book->price * quantity;
-        bookMgr.buyBook(ISBN, quantity);
+        bookMgr.buyBook(ISBN, (int)quantity);
         financeMgr.addTransaction(total, true);
 
         cout << fixed << setprecision(2) << total << "\n";
@@ -958,13 +958,13 @@ private:
         long long quantity = stoll(quantityStr);
         double totalCost = stod(totalCostStr);
 
-        if (quantity <= 0 || totalCost <= 0) {
+        if (quantity <= 0 || quantity > 2147483647 || totalCost <= 0) {
             cout << "Invalid\n";
             return;
         }
 
         string ISBN = selectedBooks[currentUser];
-        bookMgr.importBook(ISBN, quantity);
+        bookMgr.importBook(ISBN, (int)quantity);
         financeMgr.addTransaction(totalCost, false);
     }
 
